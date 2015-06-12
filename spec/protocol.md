@@ -1,5 +1,4 @@
-This document describes a message and service call format for MessagePack encoded
-datagrams.
+This document describes a message and service call format for MessagePack encoded datagrams.
 
 # Messages
 
