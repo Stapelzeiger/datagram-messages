@@ -1,5 +1,5 @@
 import unittest
-import message
+import datagrammessages.message as message
 import msgpack
 import threading
 from unittest.mock import MagicMock, Mock, patch
