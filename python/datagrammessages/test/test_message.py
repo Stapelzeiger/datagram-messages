@@ -52,6 +52,17 @@ class ConnectionHandlerTestCase(unittest.TestCase):
         s.handle_datagram(message.encode('test', 'foo'))
         handler.assert_called_once_with('foo')
 
+    def test_default_nonexisting_message(self):
+        s = message.ConnectionHandler(None)
+        s.handle_datagram(message.encode('test', 'foo'))
+
+    def test_default_message_handler(self):
+        s = message.ConnectionHandler(None)
+        handler = MagicMock()
+        s.set_default_msg_handler(handler)
+        s.handle_datagram(message.encode('foo', 123))
+        handler.assert_called_once_with('foo', 123)
+
     def test_handle_service(self):
         sock = Mock(spec=['send'])
         s = message.ConnectionHandler(sock)

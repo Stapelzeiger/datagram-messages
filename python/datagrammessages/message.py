@@ -34,6 +34,7 @@ class ConnectionHandler:
         self.active_service_calls = {}
         self.service_handlers = {}
         self.message_handlers = {}
+        self.default_message_handler = lambda msg, arg: None
 
     def set_msg_handler(self, msg, handler):
         '''
@@ -42,6 +43,15 @@ class ConnectionHandler:
         '''
         with self.handlerlock:
             self.message_handlers[msg] = handler
+
+    def set_default_msg_handler(self, handler):
+        '''
+        register a default message handler callback
+        this handler is called when no handler has been set for a received message
+        it is called wtih message name and arugment
+        '''
+        with self.handlerlock:
+            self.default_message_handler = handler
 
     def set_service_handler(self, service, handler):
         '''
@@ -104,6 +114,8 @@ class ConnectionHandler:
         with self.handlerlock:
             if name in self.message_handlers:
                 self.message_handlers[name](msg)
+            else:
+                self.default_message_handler(name, msg)
 
     def handle_datagram(self, datagram):
         name, arg = decode(datagram)
