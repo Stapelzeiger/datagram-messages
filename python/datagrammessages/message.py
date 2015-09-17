@@ -48,7 +48,7 @@ class ConnectionHandler:
         '''
         register a default message handler callback
         this handler is called when no handler has been set for a received message
-        it is called wtih message name and arugment
+        it is called wtih message name and argument
         '''
         with self.handlerlock:
             self.default_message_handler = handler
