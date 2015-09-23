@@ -1,6 +1,7 @@
 import msgpack
 import threading
 
+
 def encode(name, arg, msgpack_opt={'use_single_float': True}):
     """
     Encode a message datagram
@@ -83,6 +84,8 @@ class ConnectionHandler:
                 with self.handlerlock:
                     return self.active_service_calls.pop((service, seq))['res']
 
+        # remove service call from list
+        self.active_service_calls.pop((service, seq))
         raise self.CallTimeout('{} timed out. timeout {}s x {} retries'.format(service, timeout, nb_retries))
 
     def send(self, name, msg):
