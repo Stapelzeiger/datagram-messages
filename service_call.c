@@ -29,7 +29,7 @@ void service_call_msg_cb(cmp_ctx_t *cmp, void *arg)
     while (s->service_table->id != NULL) {
         if (strncmp(s->service_table->id, str, id_size) == 0) {
             cmp_write_array(&res_cmp, 2); // message list: ['res', [...]]
-            cmp_write_str(&cmp, "res", strlen("res"));
+            cmp_write_str(&res_cmp, "res", strlen("res"));
             cmp_write_array(&res_cmp, 3); // service response [NAME, SEQ, ARG]
             cmp_write_str(&res_cmp, str, id_size); // service name
             cmp_write_uint(&res_cmp, seq_nbr);
