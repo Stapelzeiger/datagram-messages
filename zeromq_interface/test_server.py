@@ -22,7 +22,7 @@ call_handler.bind("tcp://*:5555")
 
 def publish_on_sock(sock, msg_name, content):
     # print('out: msg {}: {}'.format(msg_name, content))
-    sock.send(msgpack.packb(msg_name) + msgpack.packb(content))
+    sock.send(msgpack.packb(msg_name) + msgpack.packb(content, use_single_float=True))
 
 msg_pub = lambda msg, content: publish_on_sock(msg_publisher_sock, msg, content)
 
