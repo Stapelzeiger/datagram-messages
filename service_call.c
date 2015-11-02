@@ -1,4 +1,5 @@
 #include "service_call.h"
+#include <cmp_mem_access/cmp_mem_access.h>
 
 void service_call_msg_cb(cmp_ctx_t *cmp, void *arg)
 {
