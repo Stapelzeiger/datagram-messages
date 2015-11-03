@@ -7,6 +7,7 @@ extern "C" {
 
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "cmp/cmp.h"
 
 struct service_entry_s {
