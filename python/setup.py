@@ -10,7 +10,7 @@ args = dict(
     install_requires=['serial_datagram'],
     author='Patrick Spieler',
     author_email='stapelzeiger@gmail.com',
-    url='https://github.com/stapelzeiger/',
+    url='https://github.com/stapelzeiger/datagram-messages',
     license='BSD'
 )
 
