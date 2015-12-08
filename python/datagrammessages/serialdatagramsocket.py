@@ -29,7 +29,10 @@ class SerialDatagramSocket:
                 time.sleep(0.5)
 
     def send(self, pkg):
-        serial_datagram.write(self.dev)
+        try:
+            self.dev.write(serial_datagram.encode(pkg))
+        except serial.SerialException:
+            self.reopen()
 
     def recv(self, buffsz=None):
         while True:
