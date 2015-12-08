@@ -2,6 +2,8 @@
 #define MSG_DISPATCHER_H
 
 #include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include "cmp/cmp.h"
 
 #ifdef __cplusplus
