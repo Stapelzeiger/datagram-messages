@@ -141,8 +141,3 @@ TEST(ServiceCallHandler, ServiceCallWithResponse)
     service_call_msg_cb(&cmp, &service_call_handler);
     mock().checkExpectations();
 };
-
-int main(int ac, char** av)
-{
-   return CommandLineTestRunner::RunAllTests(ac, av);
-}

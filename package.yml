@@ -1,0 +1,10 @@
+depends:
+    - test-runner
+
+source:
+    - msg_dispatcher.c
+    - service_call.c
+
+tests:
+    - tests/msg_dispatcher_test.cpp
+    - tests/service_call_test.cpp

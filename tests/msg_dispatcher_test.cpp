@@ -4,7 +4,7 @@
 
 #include "cmp/cmp.h"
 #include "cmp_mem_access/cmp_mem_access.h"
-#include "msg_dispatcher.h"
+#include "../msg_dispatcher.h"
 
 extern "C" void message_a_cb(cmp_ctx_t *cmp, void *arg)
 {
@@ -95,9 +95,3 @@ TEST(MSGDispatcher, CallB)
     mock().checkExpectations();
 };
 
-
-
-int main(int ac, char** av)
-{
-   return CommandLineTestRunner::RunAllTests(ac, av);
-}
