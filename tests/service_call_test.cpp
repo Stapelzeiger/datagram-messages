@@ -114,6 +114,18 @@ TEST(ServiceCallHandler, Nonexistant)
     mock().checkExpectations();
 };
 
+TEST(ServiceCallHandler, NonexistantPartialMatchShouldNotCall)
+{
+    cmp_write_str(&cmp, "ech", strlen("ech"));
+    cmp_write_uint(&cmp, 0); // sequence number
+    cmp_write_s32(&cmp, 0xdead);
+
+    // reset to start
+    cmp_mem_access_init(&cmp, &mem, arg_buffer, sizeof(arg_buffer));
+    service_call_msg_cb(&cmp, &service_call_handler);
+    mock().checkExpectations();
+};
+
 TEST(ServiceCallHandler, ServiceCallNoResponse)
 {
     cmp_write_str(&cmp, "fail_cb", strlen("fail_cb"));

@@ -30,7 +30,8 @@ void service_call_msg_cb(cmp_ctx_t *cmp, void *arg)
     }
     const struct service_entry_s *serv = s->service_table;
     while (serv->id != NULL) {
-        if (strncmp(serv->id, str, id_size) == 0) {
+        if (strncmp(serv->id, str, id_size) == 0
+            && serv->id[id_size] == '\0') {
             cmp_write_array(&res_cmp, 2); // message list: ['res', [...]]
             cmp_write_str(&res_cmp, "res", strlen("res"));
             cmp_write_array(&res_cmp, 3); // service response [NAME, SEQ, ARG]

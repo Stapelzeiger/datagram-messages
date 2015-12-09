@@ -27,7 +27,8 @@ void msg_dispatcher(const void *dtgrm,
     cmp_mem_access_set_pos(&mem, str_pos + id_size);
     const char *str = cmp_mem_access_get_ptr_at_pos(&mem, str_pos);
     while (dispatch_table->id != NULL) {
-        if (strncmp(dispatch_table->id, str, id_size) == 0) {
+        if (strncmp(dispatch_table->id, str, id_size) == 0
+            && dispatch_table->id[id_size] == '\0') {
             dispatch_table->cb(&cmp, dispatch_table->arg);
             break;
         }
