@@ -85,7 +85,8 @@ class ConnectionHandler:
                     return self.active_service_calls.pop((service, seq))['res']
 
         # remove service call from list
-        self.active_service_calls.pop((service, seq))
+        with self.handlerlock:
+            self.active_service_calls.pop((service, seq))
         raise self.CallTimeout('{} timed out. timeout {}s x {} retries'.format(service, timeout, nb_retries))
 
     def send(self, name, msg):
