@@ -1,11 +1,12 @@
 import serial
 import serial_datagram
 import time
+import datagrammessages
 
 
-class SerialDatagramSocket:
+class SerialConnection(datagrammessages.ConnectionHandler):
 
-    def __init__(self, serial_device, baudrate=1152000):
+    def __init__(self, serial_device, baudrate=115200):
         if isinstance(serial_device, str):
             self.dev_path = serial_device
             self.baud = baudrate
@@ -13,6 +14,7 @@ class SerialDatagramSocket:
         else:
             self.dev_path = None
             self.dev = serial_device
+        super(SerialConnection, self).__init__()
 
     def open(self):
         self.dev = serial.Serial(self.dev_path, baudrate=self.baud)
@@ -28,18 +30,21 @@ class SerialDatagramSocket:
             except serial.SerialException:
                 time.sleep(0.5)
 
-    def send(self, pkg):
+    def sock_send(self, pkg):
         try:
             self.dev.write(serial_datagram.encode(pkg))
         except serial.SerialException:
             self.reopen()
 
-    def recv(self, buffsz=None):
+    def sock_recv(self):
         while True:
             try:
                 return serial_datagram.read(self.dev)
             except (serial_datagram.CRCMismatchError, serial_datagram.FrameError):
                 print("CRC error")
+            except serial.serialutil.SerialException as e:
+                print(e)
+                self.reopen()
             except TypeError as e: # serial doesn't correctly handle the OSError exception on OS X
                 if str(e) == "'OSError' object is not subscriptable":
                     print('serial device error')
