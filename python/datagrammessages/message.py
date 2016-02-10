@@ -22,11 +22,7 @@ class ConnectionHandler:
     class CallTimeout(Exception):
         pass
 
-    def __init__(self, insock, outsock=None):
-        if outsock is None:
-            outsock = insock
-        self.insock = insock
-        self.outsock = outsock
+    def __init__(self):
         self.sendlock = threading.Lock()
         self.handlerlock = threading.Lock()
         self.call_seq_nbr = 0
@@ -79,7 +75,7 @@ class ConnectionHandler:
 
         for i in range(nb_retries):
             with self.sendlock:
-                self.outsock.send(encode('req', [service, seq, arg]))
+                self.sock_send(encode('req', [service, seq, arg]))
             if res_signal.wait(timeout):
                 with self.handlerlock:
                     return self.active_service_calls.pop((service, seq))['res']
@@ -96,7 +92,7 @@ class ConnectionHandler:
         if name in ('req', 'res'):
             raise ValueError('reserved message name {}'.format(name))
         with self.sendlock:
-            self.outsock.send(encode(name, msg))
+            self.sock_send(encode(name, msg))
 
     def _handle_service_req(self, arg):
         service_name, seq, request_arg = arg
@@ -105,7 +101,7 @@ class ConnectionHandler:
                 res = self.service_handlers[service_name](request_arg)
                 res_datagram = encode('res', [service_name, seq, res])
                 with self.sendlock:
-                    self.outsock.send(res_datagram)
+                    self.sock_send(res_datagram)
 
     def _handle_service_res(self, arg):
         service_name, seq, response_arg = arg
@@ -132,7 +128,7 @@ class ConnectionHandler:
 
     def spin_forever(self):
         while True:
-            self.handle_datagram(self.insock.recv(1024))
+            self.handle_datagram(self.sock_recv())
 
     def start_daemon(self):
         t = threading.Thread(target=self.spin_forever)
