@@ -2,7 +2,7 @@ import logging
 import time
 import zmqmsgbus
 import datagrammessages
-from datagrammessages.serialdatagramsocket import SerialDatagramSocket
+from datagrammessages import SerialConnection
 import argparse
 import uuid
 import serial.tools.list_ports
@@ -44,8 +44,7 @@ def find_serial_connection_for_device_name(devname):
     ports = serial_ports()
     for port in ports:
         print('checking port ' + port)
-        sock = SerialDatagramSocket(port)
-        conn = datagrammessages.ConnectionHandler(sock, sock)
+        conn = SerialConnection(port)
         conn.start_daemon()
         name = serial_conntction_get_device_name(conn)
         if name == devname:
@@ -82,8 +81,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
     if args.dev.startswith('/dev/tty'):
-        sock = SerialDatagramSocket(args.dev)
-        conn = datagrammessages.ConnectionHandler(sock, sock)
+        conn = SerialConnection(args.dev)
         conn.start_daemon()
         name = serial_conntction_get_device_name(conn)
     else:
