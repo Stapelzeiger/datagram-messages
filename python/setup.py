@@ -4,7 +4,7 @@ from setuptools import setup
 
 args = dict(
     name='datagrammessages',
-    version='0.1',
+    version='0.2',
     description='Send messages and make service calls over a datagram layer',
     packages=['datagrammessages'],
     install_requires=['serial_datagram'],
