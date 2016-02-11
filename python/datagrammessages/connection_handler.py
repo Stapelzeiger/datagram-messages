@@ -32,6 +32,7 @@ class ConnectionHandler:
         self.service_handlers = {}
         self.message_handlers = {}
         self.default_message_handler = lambda msg, arg: None
+        self.start_daemon()
 
     def set_msg_handler(self, msg, handler):
         '''
