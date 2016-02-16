@@ -2,7 +2,7 @@ import msgpack
 import threading
 
 
-def encode(name, arg, msgpack_opt={'use_single_float': True}):
+def encode(name, arg, msgpack_opt={'use_single_float': True, 'use_bin_type': True}):
     """
     Encode a message datagram
     """
